@@ -1,0 +1,85 @@
+<DOCTYPE html>
+<html>
+<head>
+      <title>Шифр перестановки</title>
+      <script>
+            function Zash(){//зашифровывающая функция
+                  var a = document.getElementById("text").value; //запись текста в переменную а
+                  var key = document.getElementById("key").value; // запись ключа в переменную key
+                  var str; // переменная для длины строки
+                  var b=""; //пустая строка для вывода результата
+                  var arr=[]; // массив для манипуляций с текстом
+                  if(a.length % key.length != 0)// условие для нахождения длины ключа где a.length длина строки, key.length длина ключа
+                  {str = (Math.floor(a.length/key.length))+1} //если длина строки не кратна ключу
+                  else{str = Math.floor(a.length/key.length)} //если длина строки кратна ключу
+                  for (var i = 0; i < key.length; i++) { // цикл для заполнения массива
+                        var first=parseInt(key.slice(i,i+1)); // переменная указывающая значение ключа по символьно
+                        arr[i]=a.slice((first-1)*str, (first-1)*str+str); // заполнение массива согласно ключу по столбцам
+                        }
+                  for (var i = 0; i < str; i++){ 
+                        for (var j=0;j<key.length;j++){ // цикл для получения результата шифрования по строкам
+                              if ((arr[j][i])=== void undefined){ //если ячейка пустая присваивает пробел
+                                    b+=" ";
+                              }
+                              else{ //если ячейка не пуста записывает значение ячейки в строку
+                                    b+=arr[j][i]
+                              }
+                        }
+                  }
+                  document.getElementById("otvet").value=b; // вывод результата на экран
+            }
+            function Rash(){
+                  var a = document.getElementById("text").value; //запись текста в переменную а
+                  var b=""; //пустая строка для вывода результата
+                  var key = document.getElementById("key").value; // запись ключа в переменную key
+                  var str;  // переменная для длины строки 
+                  var arr=[]; // массив для манипуляций с текстом
+                  if(a.length % key.length != 0) // условие для нахождения длины ключа где a.length длина строки, key.length длина ключа
+                  {str = (Math.floor(a.length/key.length))+1} //если длина строки не кратна ключу
+                  else{str = Math.floor(a.length/key.length)} //если длина строки кратна ключу
+                  for (var i = 0; i < str; i++) { // запись текста в матрицу по строкам
+                        arr[i]=a.slice(i*key.length, i*key.length+key.length);
+                        }   
+                  for (var i = 0; i < key.length; i++){
+                        for(var j=0;j<str;j++){ // цикл для записи текста по столбцам
+                              if ((arr[j][i])=== void undefined){ //если ячейка пустая присваивает пробел
+                              b+=" ";
+                              }
+                              else{ //если ячейка не пуста записывает значение ячейки в строку
+                                    b+=arr[j][i];
+                                    }
+                              }    
+                  }
+                  for (var i = 0; i < key.length; i++) { //циксл для смены столбцов по ключу
+                        var first=parseInt(key.slice(i,i+1)); // переменная указывающая значение ключа по символьно
+                        arr[first-1]=b.slice(i*str, i*str+str); //запись текста в массив по ключу
+                        }
+                        b=""; // обнуление строки b
+                        for (var i = 0; i < key.length; i++){
+                        for(var j=0;j<str;j++){ // запись текста в строку
+                              if ((arr[i][j])=== void undefined){ //если ячейка пустая присваивает пробел
+                              b+=" ";
+                              }
+                              else{ //если ячейка не пуста записывает значение ячейки в строку
+                                    b+=arr[i][j];
+                                    }
+                              }    
+                  }  
+                  document.getElementById("otvet").value=b; // вывод результата на экран
+            }
+      </script>
+</head>
+<body>
+    <div>Введите текст</div></br>
+    <div><input id="text" type="text"></div></br>
+    <div>Введите ключ</div></br>
+    <div><input id="key" type="text"></div></br>
+    <div>
+          <input type="button" value="Зашифровать" onclick="Zash()"/>
+          <input type="button" value="Расшифровать" onclick="Rash()"/>
+    </div></br>
+    
+    <div>Ответ:<input id="otvet" type="text" ></div></br>
+    
+</body>
+</html>
